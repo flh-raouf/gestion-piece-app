@@ -1,5 +1,10 @@
 import React, { useState, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
+import {User} from "@heroui/user";
+import {Divider} from "@heroui/react";
+import {Card, CardHeader, Image} from "@heroui/react";
+
+
 
 const ScanPage = () => {
   const [qrData, setQrData] = useState(null); // State to store the scanned QR code data
@@ -110,80 +115,126 @@ const ScanPage = () => {
         </button>
       )}
 
-      {/* Display Scanned Data */}
-      {qrData && (
-        <div className="mt-6 p-4 bg-gray-800 rounded-lg w-full max-w-sm">
-          <h2 className="text-xl font-semibold mb-4">Scanned Data</h2>
-          <pre className="whitespace-pre-wrap break-words">{qrData}</pre>
-        </div>
-      )}
+      
 
       {/* Display Backend Data */}
       {backendData && (
         <div className="mt-6 p-4 bg-gray-800 rounded-lg w-full max-w-2xl">
-          <h2 className="text-xl font-semibold mb-4">Backend Data</h2>
 
-          {/* Camion Details */}
-          {backendData.camion && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Camion Details</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <p><strong>Numéro Carte Grise:</strong> {backendData.camion.num_carte_grise}</p>
-                <p><strong>Numéro Contrôle Technique:</strong> {backendData.camion.num_ctrl_tech}</p>
-                <p><strong>Date Contrôle Technique:</strong> {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()}</p>
-              </div>
+
+          {/* Chauffeur Details */}
+          <h3 className="text-lg font-semibold mb-2">Détails du chauffeur</h3>
+          {backendData.chauffeur && (
+            <div>
+              <User
+                avatarProps={{
+                  src: backendData.chauffeur.photo_url,
+                }}
+                description={backendData.chauffeur.numero_permis}
+                name={`${backendData.chauffeur.nom} ${backendData.chauffeur.prenom}`} 
+              />
             </div>
           )}
+
+
+          <Divider className="my-4 bg-white" />
+
+
+          <h3 className="text-lg font-semibold mb-2">Détail du camion</h3>
+          <Card className="max-w-[400px]">
+            <CardHeader className="flex gap-3 bg-gray-700">
+              <Image
+                alt="heroui logo"
+                height={40}
+                radius="sm"
+                // src="https://images.emojiterra.com/google/android-12l/512px/1f69a.png"
+                width={40}
+              />
+              <div className="flex flex-col">
+                <p className="text-md text-white">Numéro Carte Grise: {backendData.camion.num_carte_grise}</p>
+                <p className="text-small text-white">{backendData.camion.num_ctrl_tech}  - {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()} </p>
+              </div>
+            </CardHeader>
+          </Card>
+
+
+          <Divider className="my-4 bg-white" />
+
 
           {/* Trajet Details */}
           {backendData.trajet && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Trajet Details</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <p><strong>Départ:</strong> {backendData.trajet.depart}</p>
-                <p><strong>Destination:</strong> {backendData.trajet.destination}</p>
-                <p><strong>Date et Heure de Départ:</strong> {new Date(backendData.trajet.date_heure_depart).toLocaleString()}</p>
-                <p><strong>Date et Heure d'Arrivée Prévue:</strong> {new Date(backendData.trajet.date_heure_arrivee_prevue).toLocaleString()}</p>
+              <h3 className="text-lg font-semibold mb-2">Détails du trajet </h3>
+              <div className="bg-gray-800 p-4 rounded-lg">
+                
+                {/* Départ */}
+                <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg mb-2">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 flex items-center justify-center rounded-full border border-blue-400">
+                      <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+                    </div>
+                    <p className="text-white">{backendData.trajet.depart}</p>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    {new Date(backendData.trajet.date_heure_depart).toLocaleString()}
+                  </p>
+                </div>
+
+                {/* Destination */}
+                <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 flex items-center justify-center rounded-full text-white">
+                      📍
+                    </div>
+                    <p className="text-white">{backendData.trajet.destination}</p>
+                  </div>
+                  <p className="text-gray-300 text-sm">
+                    {new Date(backendData.trajet.date_heure_arrivee_prevue).toLocaleString()}
+                  </p>
+                </div>
+
               </div>
             </div>
           )}
+
+
+          <Divider className="my-4 bg-white" />
+
+
 
           {/* Pieces Details */}
           {backendData.pieces && (
-            <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Pieces Details</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                {backendData.pieces.map((piece, index) => (
-                  <div key={index} className="mb-4">
-                    <p><strong>Nom:</strong> {piece.nom}</p>
-                    <p><strong>Référence:</strong> {piece.num_ref}</p>
-                    <p><strong>Description:</strong> {piece.description}</p>
-                    <p><strong>Catégorie:</strong> {piece.categorie}</p>
-                    <p><strong>Sous-Catégorie:</strong> {piece.sous_categorie}</p>
-                    <p><strong>Matériau:</strong> {piece.materiau}</p>
-                    <p><strong>Dimensions:</strong> {piece.dimension}</p>
-                    <p><strong>Couleur:</strong> {piece.couleur}</p>
-                    <p><strong>Photo URL:</strong> <a href={piece.photo_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{piece.photo_url}</a></p>
-                    <p><strong>Quantité:</strong> {piece.quantity}</p>
-                    {index < backendData.pieces.length - 1 && <hr className="my-2 border-gray-600" />} {/* Separator between pieces */}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-2">Pieces Details</h3>
 
-          {/* Chauffeur Details */}
-          {backendData.chauffeur && (
-            <div>
-              <h3 className="text-lg font-semibold mb-2">Chauffeur Details</h3>
-              <div className="bg-gray-700 p-4 rounded-lg">
-                <p><strong>Nom:</strong> {backendData.chauffeur.nom}</p>
-                <p><strong>Prénom:</strong> {backendData.chauffeur.prenom}</p>
-                <p><strong>Numéro de Permis:</strong> {backendData.chauffeur.numero_permis}</p>
-                <p><strong>Photo URL:</strong> <a href={backendData.chauffeur.photo_url} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">{backendData.chauffeur.photo_url}</a></p>
-              </div>
+            {/* Grid Layout for Multiple Pieces */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {backendData.pieces.map((piece, index) => (
+                <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-lg">
+                  <h4 className="text-lg font-semibold text-white mb-2">{piece.nom}</h4>
+                  <p className="text-gray-300">🔹 <strong>Description:</strong> {piece.description}</p>
+                  <p className="text-gray-300">🔹 <strong>Référence:</strong> {piece.num_ref}</p>
+                  <p className="text-gray-300">🔹 <strong>Catégorie:</strong> {piece.categorie} - {piece.sous_categorie}</p>
+                  <p className="text-gray-300">🔹 <strong>Matériau:</strong> {piece.materiau}</p>
+                  <p className="text-gray-300">🔹 <strong>Dimensions:</strong> {piece.dimension}</p>
+                  <p className="text-gray-300">🔹 <strong>Couleur:</strong> {piece.couleur}</p>
+                  <p className="text-white font-semibold mt-2">🛠️ Quantité: {piece.quantity}</p>
+
+                  {/* Image */}
+                  <img
+                    src={piece.photo_url}
+                    alt={`Photo of ${piece.nom}`}
+                    className="w-full h-40 object-cover rounded-lg mt-3"
+                  />
+                </div>
+              ))}
             </div>
-          )}
+          </div>
+        )}
+
+
+
+          
         </div>
       )}
     </div>
