@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
-import {User} from "@heroui/user";
-import {Divider} from "@heroui/react";
-import {Card, CardHeader, Image} from "@heroui/react";
-
-
+import { User } from "@heroui/user";
+import { Divider } from "@heroui/react";
+import { Card, CardHeader, Image } from "@heroui/react";
 
 const ScanPage = () => {
   const [qrData, setQrData] = useState(null); // State to store the scanned QR code data
@@ -115,31 +113,26 @@ const ScanPage = () => {
         </button>
       )}
 
-      
-
       {/* Display Backend Data */}
       {backendData && (
         <div className="mt-6 p-4 bg-gray-800 rounded-lg w-full max-w-2xl">
-
-
           {/* Chauffeur Details */}
           <h3 className="text-lg font-semibold mb-2">Détails du chauffeur</h3>
-          {backendData.chauffeur && (
+          {backendData.trajet && (
             <div>
               <User
                 avatarProps={{
-                  src: backendData.chauffeur.photo_url,
+                  src: backendData.trajet.photo_url_chauffeur,
                 }}
-                description={backendData.chauffeur.numero_permis}
-                name={`${backendData.chauffeur.nom} ${backendData.chauffeur.prenom}`} 
+                description={backendData.trajet.numero_permis_chauffeur}
+                name={`${backendData.trajet.nom_chauffeur} ${backendData.trajet.prenom_chauffeur}`}
               />
             </div>
           )}
 
-
           <Divider className="my-4 bg-white" />
 
-
+          {/* Camion Details */}
           <h3 className="text-lg font-semibold mb-2">Détail du camion</h3>
           <Card className="max-w-[400px]">
             <CardHeader className="flex gap-3 bg-gray-700">
@@ -147,26 +140,24 @@ const ScanPage = () => {
                 alt="heroui logo"
                 height={40}
                 radius="sm"
-                // src="https://images.emojiterra.com/google/android-12l/512px/1f69a.png"
                 width={40}
               />
               <div className="flex flex-col">
                 <p className="text-md text-white">Numéro Carte Grise: {backendData.camion.num_carte_grise}</p>
-                <p className="text-small text-white">{backendData.camion.num_ctrl_tech}  - {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()} </p>
+                <p className="text-small text-white">
+                  {backendData.camion.num_ctrl_tech} - {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()}
+                </p>
               </div>
             </CardHeader>
           </Card>
 
-
           <Divider className="my-4 bg-white" />
-
 
           {/* Trajet Details */}
           {backendData.trajet && (
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Détails du trajet </h3>
+              <h3 className="text-lg font-semibold mb-2">Détails du trajet</h3>
               <div className="bg-gray-800 p-4 rounded-lg">
-                
                 {/* Départ */}
                 <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg mb-2">
                   <div className="flex items-center space-x-2">
@@ -192,49 +183,30 @@ const ScanPage = () => {
                     {new Date(backendData.trajet.date_heure_arrivee_prevue).toLocaleString()}
                   </p>
                 </div>
-
               </div>
             </div>
           )}
 
-
           <Divider className="my-4 bg-white" />
-
-
 
           {/* Pieces Details */}
           {backendData.pieces && (
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Pieces Details</h3>
-
-            {/* Grid Layout for Multiple Pieces */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {backendData.pieces.map((piece, index) => (
-                <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-lg">
-                  <h4 className="text-lg font-semibold text-white mb-2">{piece.nom}</h4>
-                  <p className="text-gray-300">🔹 <strong>Description:</strong> {piece.description}</p>
-                  <p className="text-gray-300">🔹 <strong>Référence:</strong> {piece.num_ref}</p>
-                  <p className="text-gray-300">🔹 <strong>Catégorie:</strong> {piece.categorie} - {piece.sous_categorie}</p>
-                  <p className="text-gray-300">🔹 <strong>Matériau:</strong> {piece.materiau}</p>
-                  <p className="text-gray-300">🔹 <strong>Dimensions:</strong> {piece.dimension}</p>
-                  <p className="text-gray-300">🔹 <strong>Couleur:</strong> {piece.couleur}</p>
-                  <p className="text-white font-semibold mt-2">🛠️ Quantité: {piece.quantity}</p>
-
-                  {/* Image */}
-                  <img
-                    src={piece.photo_url}
-                    alt={`Photo of ${piece.nom}`}
-                    className="w-full h-40 object-cover rounded-lg mt-3"
-                  />
-                </div>
-              ))}
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold mb-2">Pieces Details</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {backendData.pieces.map((piece, index) => (
+                  <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-lg">
+                    <h4 className="text-lg font-semibold text-white mb-2">{piece.nom}</h4>
+                    <p className="text-gray-300">🔹 <strong>Référence:</strong> {piece.num_ref}</p>
+                    <p className="text-gray-300">🔹 <strong>Poids:</strong> {piece.poids} kg</p>
+                    <p className="text-gray-300">🔹 <strong>Origine:</strong> {piece.origine}</p>
+                    <p className="text-gray-300">🔹 <strong>Etat:</strong> {piece.etat}</p>
+                    <p className="text-gray-300">🔹 <strong>Qualité:</strong> {piece.quality}</p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-
-
-
-          
+          )}
         </div>
       )}
     </div>

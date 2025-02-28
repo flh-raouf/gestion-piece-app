@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 function Login() {
@@ -46,7 +45,7 @@ function Login() {
         {/* Login Container */}
         <div className="relative w-full max-w-6xl p-4 sm:p-8 flex justify-center items-center">
           {/* Login Wrapper */}
-          <div className="relative bg-[#1a1a2e] rounded-lg p-6 sm:p-8 w-full max-w-sm shadow-lg text-center z-10">
+          <div className="relative bg-[#22243d] rounded-lg p-6 sm:p-8 w-full max-w-sm shadow-lg text-center z-10">
             <h2 className="text-4xl sm:text-5xl font-semibold mb-6 sm:mb-8 text-white">Login</h2>
 
             {/* Error Message */}
