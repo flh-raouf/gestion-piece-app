@@ -115,17 +115,18 @@ const ScanPage = () => {
 
       {/* Display Backend Data */}
       {backendData && (
-        <div className="mt-6 p-4 bg-gray-800 rounded-lg w-full max-w-2xl">
+        <div className="mt-6 p-4 bg-[#22243d] rounded-lg w-full max-w-2xl">
           {/* Chauffeur Details */}
           <h3 className="text-lg font-semibold mb-2">Détails du chauffeur</h3>
           {backendData.trajet && (
-            <div>
+            <div className='border-2 w-full p-3 rounded-lg'>
               <User
                 avatarProps={{
                   src: backendData.trajet.photo_url_chauffeur,
                 }}
                 description={backendData.trajet.numero_permis_chauffeur}
                 name={`${backendData.trajet.nom_chauffeur} ${backendData.trajet.prenom_chauffeur}`}
+                
               />
             </div>
           )}
@@ -134,22 +135,12 @@ const ScanPage = () => {
 
           {/* Camion Details */}
           <h3 className="text-lg font-semibold mb-2">Détail du camion</h3>
-          <Card className="max-w-[400px]">
-            <CardHeader className="flex gap-3 bg-gray-700">
-              <Image
-                alt="heroui logo"
-                height={40}
-                radius="sm"
-                width={40}
-              />
-              <div className="flex flex-col">
+          <div className="flex flex-col border-2 rounded-lg mb-2 p-3">
                 <p className="text-md text-white">Numéro Carte Grise: {backendData.camion.num_carte_grise}</p>
                 <p className="text-small text-white">
-                  {backendData.camion.num_ctrl_tech} - {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()}
+                  Contrôle Téchnique: {backendData.camion.num_ctrl_tech} - {new Date(backendData.camion.date_ctrl_tech).toLocaleDateString()}
                 </p>
-              </div>
-            </CardHeader>
-          </Card>
+          </div>
 
           <Divider className="my-4 bg-white" />
 
@@ -157,9 +148,9 @@ const ScanPage = () => {
           {backendData.trajet && (
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-2">Détails du trajet</h3>
-              <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="bg-[#22243d] p-4 rounded-lg">
                 {/* Départ */}
-                <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg mb-2">
+                <div className="flex items-center justify-between bg-[#292b45] border-2 p-3 rounded-lg mb-2">
                   <div className="flex items-center space-x-2">
                     <div className="w-5 h-5 flex items-center justify-center rounded-full border border-blue-400">
                       <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
@@ -172,7 +163,7 @@ const ScanPage = () => {
                 </div>
 
                 {/* Destination */}
-                <div className="flex items-center justify-between bg-gray-700 p-3 rounded-lg">
+                <div className="flex items-center justify-between bg-[#292b45]  border-2 p-3 rounded-lg">
                   <div className="flex items-center space-x-2">
                     <div className="w-5 h-5 flex items-center justify-center rounded-full text-white">
                       📍
@@ -195,7 +186,7 @@ const ScanPage = () => {
               <h3 className="text-lg font-semibold mb-2">Pieces Details</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {backendData.pieces.map((piece, index) => (
-                  <div key={index} className="bg-gray-700 p-4 rounded-lg shadow-lg">
+                  <div key={index} className="bg-[#292b45] p-4 rounded-lg shadow-lg">
                     <h4 className="text-lg font-semibold text-white mb-2">{piece.nom}</h4>
                     <p className="text-gray-300">🔹 <strong>Référence:</strong> {piece.num_ref}</p>
                     <p className="text-gray-300">🔹 <strong>Poids:</strong> {piece.poids} kg</p>

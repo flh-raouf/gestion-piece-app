@@ -32,8 +32,8 @@ function Login() {
       localStorage.setItem('token', data.token);
 
       // Redirect to the scan-qr-code page
-      router.push('/scan-qr-code');
-    } catch (err) {
+      router.replace('/scan-qr-code').then(() => window.location.reload());
+      } catch (err) {
       setError('Invalid email or password');
       console.error('Login error:', err);
     }
