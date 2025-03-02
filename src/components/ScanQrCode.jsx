@@ -71,6 +71,7 @@ const ScanPage = () => {
       }
 
       const data = await response.json(); // Parse the backend response
+      console.log(data)
       setBackendData(data); // Store the backend response in state
     } catch (err) {
       console.error("Error fetching backend data:", err);
@@ -193,6 +194,7 @@ const ScanPage = () => {
                     <p className="text-gray-300">🔹 <strong>Origine:</strong> {piece.origine}</p>
                     <p className="text-gray-300">🔹 <strong>Etat:</strong> {piece.etat}</p>
                     <p className="text-gray-300">🔹 <strong>Qualité:</strong> {piece.quality}</p>
+                    <p className="text-gray-300">🔹 <strong>Quantité:</strong> {piece.quantite}</p>
                   </div>
                 ))}
               </div>
