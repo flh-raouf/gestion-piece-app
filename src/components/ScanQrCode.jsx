@@ -56,7 +56,7 @@ const ScanPage = () => {
         return;
       }
 
-      const response = await fetch("http://localhost:8080/api/app/scanQrCode", {
+      const response = await fetch("https://gestion-piece-app.vercel.app/api/app/scanQrCode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
